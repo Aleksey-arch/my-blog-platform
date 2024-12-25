@@ -7,22 +7,35 @@ import { format } from 'date-fns';
 import avatarPictures from '../../../public/assets/author.svg';
 import { Spin } from 'antd';
 import { apiAddFavorite } from '../../api/apiAddFavorite.js';
-import { apiGetArticles } from '../../api/apiGetArticles.js';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { apiDeleteArticle } from '../../api/apiDeleteFavorite.js';
 
 function ItemList({ article }) {
+  const [likeCount, setLikeCount] = useState(0);
+  const [block, setBlock] = useState(false);
   const dispatch = useDispatch();
   const formatDate = format(article?.updatedAt, 'MMM d, yyyy');
   const data = useSelector((store) => store.articlesData);
+  const { profile, status, error, loading, user, isAuthenticated } =
+    useSelector((store) => store.loginProfile);
 
   const getArticle = (e) => {
     dispatch(apiGetArticle(e));
   };
-  const handleClick = () => {
+  const addLike = () => {
+    setLikeCount((item) => item + 1);
+    setBlock(true);
     dispatch(apiAddFavorite(article?.slug));
   };
-  // console.log(article);
-  useEffect(() => {}, [dispatch]);
+  const removeLike = () => {
+    setLikeCount((item) => item - 1);
+    setBlock(false);
+    dispatch(apiDeleteArticle(article?.slug));
+  };
+  useEffect(() => {
+    setLikeCount(article.favoritesCount);
+    setBlock(article.favorited);
+  }, []);
   return (
     <>
       {data.loading ? (
@@ -37,14 +50,22 @@ function ItemList({ article }) {
                     {article?.title}
                   </Link>
                 </h1>
-                <div className={classes.like} onClick={() => handleClick()}>
-                  {article.favorited ? (
-                    <div className={classes.heartFavorited}></div>
-                  ) : (
+                <div className={classes.like}>
+                  {!isAuthenticated ? (
                     <div className={classes.heart}></div>
+                  ) : block ? (
+                    <div
+                      className={classes.heartFavorited}
+                      onClick={() => removeLike()}
+                    ></div>
+                  ) : (
+                    <div
+                      className={classes.heart}
+                      onClick={() => addLike()}
+                    ></div>
                   )}
 
-                  <span>{article.favoritesCount}</span>
+                  <span>{likeCount}</span>
                 </div>
               </div>
               <div className={classes.tagsContainer}>

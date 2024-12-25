@@ -5,6 +5,7 @@ export const apiGetArticles = createAsyncThunk(
   'apiGetArticles',
   async (paginationNumber, { RejectWithValue }) => {
     try {
+      const token = localStorage.getItem('token');
       const response = await axios.get(
         'https://blog-platform.kata.academy/api/articles',
         {
@@ -12,16 +13,13 @@ export const apiGetArticles = createAsyncThunk(
             limit: 5,
             offset: paginationNumber * 5 - 5,
           },
-        },
-        {
           headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${localStorage.getItem('token')}`, // Исправлено на "Token", а не "Bearer"
+            Authorization: `Token ${token}`,
           },
         },
       );
       if (response.status === 200) {
-        console.log(response);
+        // console.log(response.data.articles.map((item) => item.favorited));
         return response.data;
       }
     } catch (r) {

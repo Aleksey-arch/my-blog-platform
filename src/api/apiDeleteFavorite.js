@@ -1,21 +1,24 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-export const apiGetArticle = createAsyncThunk(
-  'apiGetArticle',
+export const apiDeleteArticle = createAsyncThunk(
+  'apiDeleteArticle',
   async (slug, { rejectWithValue }) => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get(
-        `https://blog-platform.kata.academy/api/articles/${slug}`,
+      const response = await axios.delete(
+        `https://blog-platform.kata.academy/api/articles/${slug}/favorite`,
+
         {
           headers: {
+            'Content-Type': 'application/json',
             Authorization: `Token ${token}`,
           },
         },
       );
 
       if (response.status === 200) {
+        // console.log(response);
         return response.data;
       } else {
         return rejectWithValue(

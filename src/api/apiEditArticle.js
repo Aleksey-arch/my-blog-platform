@@ -7,8 +7,6 @@ export const apiEditArticle = createAsyncThunk(
   'apiPostNewArticle',
   async (data, { RejectWithValue }) => {
     try {
-      // const dispatch = useDispatch();
-      // dispatch(actions.profileLoading());
       const token = localStorage.getItem('token');
       const response = await axios.put(
         `https://blog-platform.kata.academy/api/articles/${data?.slug}`,
@@ -26,8 +24,6 @@ export const apiEditArticle = createAsyncThunk(
       console.log(response);
 
       if (response.status === 200) {
-        dispatch(actions.profileLoading());
-        // console.log(response);
         return response.data;
       }
     } catch (r) {

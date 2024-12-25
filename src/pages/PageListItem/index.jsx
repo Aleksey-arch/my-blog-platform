@@ -5,6 +5,8 @@ import { format } from 'date-fns';
 import { Link } from 'react-router';
 import TooltipsDelete from '../../components/ui/TooltipsDelete/index.jsx';
 import { actions } from '../../store/slices/articlesDataSlice.js';
+import { apiAddFavorite } from '../../api/apiAddFavorite.js';
+import { apiDeleteArticle } from '../../api/apiDeleteFavorite.js';
 
 function PageArticle() {
   const { currentArticle, conditionTooltipsDelete } = useSelector(
@@ -22,8 +24,12 @@ function PageArticle() {
     dispatch(actions.changeConditionTooltipsDelete());
     // setTooltips(!tooltips);
   };
-
-  console.log('profile: ', profile, 'currentArticle: ', currentArticle);
+  const addLike = () => {
+    dispatch(apiAddFavorite(currentArticle?.slug));
+  };
+  const removeLike = () => {
+    dispatch(apiDeleteArticle(currentArticle?.slug));
+  };
 
   return (
     <div className={classes.container}>
@@ -34,7 +40,17 @@ function PageArticle() {
               <div className={classes.titleLikeContainer}>
                 <h1 className={classes.title}>{currentArticle.title}</h1>
                 <div className={classes.like}>
-                  <div className={classes.heart}></div>
+                  {currentArticle.favorited ? (
+                    <div
+                      className={classes.heartFavorited}
+                      onClick={() => removeLike()}
+                    ></div>
+                  ) : (
+                    <div
+                      className={classes.heart}
+                      onClick={() => addLike()}
+                    ></div>
+                  )}
                   <span>{currentArticle.favoritesCount}</span>
                 </div>
               </div>

@@ -11,10 +11,14 @@ export const articlesDataSlice = createSlice({
     loading: false,
     currentArticle: null,
     conditionTooltipsDelete: false,
+    paginationNumber: 1,
   },
   reducers: {
     changeConditionTooltipsDelete: (state) => {
       state.conditionTooltipsDelete = !state.conditionTooltipsDelete;
+    },
+    setPaginationNumber: (state, action) => {
+      state.paginationNumber = action.payload;
     },
   },
   extraReducers: (builder) => {

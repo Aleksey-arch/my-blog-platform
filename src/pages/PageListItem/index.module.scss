@@ -74,6 +74,25 @@
             }
           }
 
+          .heartFavorited {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            &:before {
+              content: '';
+              background-image: url("public/assets/heart-active.svg");
+              background-repeat: no-repeat;
+              width: 18px;
+              height: 18px;
+              display: inline-block;
+              margin-right: 3px;
+              cursor: pointer;
+            }
+
+
+          }
+
         }
 
         .tagsContainer {

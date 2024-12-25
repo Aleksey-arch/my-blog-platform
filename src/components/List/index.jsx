@@ -4,18 +4,20 @@ import { ConfigProvider, Pagination, Spin } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { apiGetArticles } from '../../api/apiGetArticles.js';
+import { actions } from '../../store/slices/articlesDataSlice.js';
 
 function List() {
-  const [paginationNumber, setPaginationNumber] = useState(1);
-
+  // const [paginationNumber, setPaginationNumber] = useState(1);
   const dispatch = useDispatch();
-
   const data = useSelector((store) => store.articlesData);
   const { articles, articlesCount } = data.articles;
+  const { paginationNumber } = data;
 
   useEffect(() => {
     dispatch(apiGetArticles(paginationNumber));
   }, [dispatch, paginationNumber]);
+
+  console.log(paginationNumber);
 
   return (
     <>
@@ -41,10 +43,9 @@ function List() {
             defaultCurrent={1}
             total={articlesCount}
             align="center"
-            // total={totalPage}
             showSizeChanger={false}
             onChange={(e) => {
-              setPaginationNumber(e);
+              dispatch(actions.setPaginationNumber(e));
             }}
             current={paginationNumber}
           />
