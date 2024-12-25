@@ -53,7 +53,7 @@
 
             &:before {
               content: '';
-              background-image: url("public/assets/heart-unactive.svg");
+              background-image: url("../../../public/assets/heart-unactive.svg");
               background-repeat: no-repeat;
               width: 18px;
               height: 18px;
@@ -64,7 +64,7 @@
 
             &:hover:before {
               height: 16px;
-              background-image: url("public/assets/heart-active.svg");
+              background-image: url("../../../public/assets/heart-active.svg");
             }
           }
 
@@ -81,7 +81,7 @@
 
           &:before {
             content: '';
-            background-image: url("public/assets/heart-active.svg");
+            background-image: url("../../../public/assets/heart-active.svg");
             background-repeat: no-repeat;
             width: 18px;
             height: 18px;
@@ -90,7 +90,7 @@
             cursor: pointer;
           }
 
-          
+
         }
 
       }
