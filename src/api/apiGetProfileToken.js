@@ -22,21 +22,20 @@ export const apiGetProfileToken = createAsyncThunk(
       );
 
       if (response.status === 200) {
-        return response.data; // Возвращаем данные пользователя
+        return response.data;
       } else if (response.status >= 400) {
-        // Обработка ошибок на стороне сервера (4xx, 5xx)
         const errorData = response.data || {
           message: `Ошибка сервера ${response.status}`,
         };
         return rejectWithValue(
           errorData.message || errorData.error || errorData.errors,
-        ); //  Возвращаем более детальное сообщение об ошибке
+        );
       }
     } catch (error) {
-      console.error('Ошибка при получении профиля:', error); // Важное логирование
+      console.error('Ошибка при получении профиля:', error);
       return rejectWithValue(
         error.message || 'Не удалось получить данные пользователя',
-      ); // Более точное сообщение об ошибке
+      );
     }
   },
 );

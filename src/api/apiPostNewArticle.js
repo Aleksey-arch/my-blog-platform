@@ -19,10 +19,7 @@ export const apiPostNewArticle = createAsyncThunk(
         { headers: { Authorization: `Token ${token}` } },
       );
 
-      console.log(response);
-
       if (response.status === 200) {
-        // console.log(response);
         return response.data;
       }
     } catch (r) {

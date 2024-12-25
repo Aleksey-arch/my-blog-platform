@@ -1,14 +1,12 @@
-import { Link, useNavigate } from 'react-router';
+import { Link } from 'react-router';
 import classes from './index.module.scss';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import avatarPictures from '../../../../public/assets/author.svg';
 
 function HeaderProfileIcon() {
   const { profile, status, error, loading } = useSelector(
     (store) => store.loginProfile,
   );
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
 
   return (
     <>

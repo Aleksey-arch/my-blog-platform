@@ -16,8 +16,6 @@ export const apiPostNewProfile = createAsyncThunk(
         },
       );
 
-      console.log(response);
-
       if (response.status === 200) {
         localStorage.setItem('token', response?.data?.user?.token);
         return response.data;

@@ -23,7 +23,6 @@ function PageSignUp() {
   const emailError = errors['email']?.message;
 
   const onSubmit = (data) => {
-    // console.log(data);
     dispatch(apiPostNewProfile(data)).then(() => {
       navigate('/');
     });

@@ -16,7 +16,6 @@ export const apiPostLogin = createAsyncThunk(
       );
 
       if (response.status === 200) {
-        // console.log(response);
         return response.data;
       }
     } catch (r) {

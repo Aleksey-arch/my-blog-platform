@@ -21,11 +21,9 @@ function PageSignIn() {
   const emailError = errors['email']?.message;
   const onSubmit = (data) => {
     dispatch(apiPostLogin(data));
-    // получили токен
   };
 
   useEffect(() => {
-    // console.log('profile: ', profile);
     if (profile?.user?.email) {
       navigate('/');
       localStorage.setItem('token', profile?.user?.token);

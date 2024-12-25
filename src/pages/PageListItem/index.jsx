@@ -20,9 +20,7 @@ function PageArticle() {
     : null;
 
   const onDelete = (e) => {
-    // console.log(currentArticle);
     dispatch(actions.changeConditionTooltipsDelete());
-    // setTooltips(!tooltips);
   };
   const addLike = () => {
     dispatch(apiAddFavorite(currentArticle?.slug));
@@ -81,7 +79,6 @@ function PageArticle() {
                     Delete
                   </button>
                   {conditionTooltipsDelete ? <TooltipsDelete /> : null}
-
                   <Link to="/edit-article">
                     <button className={classes.btnEdit}>Edit</button>
                   </Link>

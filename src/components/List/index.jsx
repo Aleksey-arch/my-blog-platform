@@ -7,7 +7,6 @@ import { apiGetArticles } from '../../api/apiGetArticles.js';
 import { actions } from '../../store/slices/articlesDataSlice.js';
 
 function List() {
-  // const [paginationNumber, setPaginationNumber] = useState(1);
   const dispatch = useDispatch();
   const data = useSelector((store) => store.articlesData);
   const { articles, articlesCount } = data.articles;

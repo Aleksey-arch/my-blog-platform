@@ -19,7 +19,6 @@ export const apiGetArticles = createAsyncThunk(
         },
       );
       if (response.status === 200) {
-        // console.log(response.data.articles.map((item) => item.favorited));
         return response.data;
       }
     } catch (r) {

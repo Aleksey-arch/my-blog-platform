@@ -18,7 +18,6 @@ export const apiAddFavorite = createAsyncThunk(
       );
 
       if (response.status === 200) {
-        // console.log(response.data.article.favorited);
         return response.data;
       } else {
         return rejectWithValue(

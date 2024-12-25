@@ -1,9 +1,7 @@
 import classes from './index.module.scss';
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { apiPostLogin } from '../../api/apiPostLogin.js';
 import { apiPutEditProfile } from '../../api/apiPutEditProfile.js';
 
 function PageEditProfile() {
@@ -25,7 +23,6 @@ function PageEditProfile() {
   const emailError = errors['email']?.message;
 
   const onSubmit = (data) => {
-    console.log(data);
     dispatch(apiPutEditProfile(data));
   };
   useEffect(() => {
