@@ -1,0 +1,173 @@
+
+.container {
+
+  width: 100%;
+  max-width: 938px;
+  height: auto;
+  padding: 15px 16px;
+  margin: 26px auto 26px;
+  border-radius: 3px;
+  background-color: #fff;
+  box-shadow: 0px 3px 8px 0px rgba(34, 60, 80, 0.2);
+
+  .header {
+
+
+    .topWrapper {
+      display: flex;
+      justify-content: space-between;
+
+      .leftContainer {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin-bottom: 8px;
+
+        .titleLikeContainer {
+          width: 600px;
+          overflow: hidden;
+          height: auto;
+          text-wrap: wrap;
+          word-break: break-word;
+          display: flex;
+          align-items: center;
+          gap: 16px;
+
+          .title {
+            font-size: 20px;
+            color: #1890FF;
+
+            &:hover {
+            }
+          }
+
+          .like {
+            display: flex;
+            align-items: center;
+            gap: 3px;
+
+            .heart {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+
+              &:before {
+                content: '';
+                background-image: url("public/assets/heart-unactive.svg");
+                background-repeat: no-repeat;
+                width: 18px;
+                height: 18px;
+                display: inline-block;
+                margin-right: 3px;
+                cursor: pointer;
+              }
+
+              &:hover:before {
+                height: 16px;
+                background-image: url("public/assets/heart-active.svg");
+              }
+            }
+
+
+            span {
+              font-size: 12px;
+            }
+          }
+
+        }
+
+        .tagsContainer {
+          width: 600px;
+          overflow: hidden;
+          height: auto;
+          display: flex;
+          flex-wrap: wrap;
+          gap: 5px;
+
+          .tag {
+            width: auto;
+
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            padding: 1px 3px;
+          }
+        }
+
+
+      }
+
+      .rightContainer {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+
+        h2 {
+          font-weight: 500;
+          font-size: 18px;
+        }
+
+        span {
+          opacity: 0.7;
+        }
+
+        img {
+          width: 46px;
+          height: 46px;
+          border-radius: 50%;
+        }
+      }
+
+      .btnContainer {
+        margin-top: 16px;
+        position: relative;
+      }
+
+      .btnDelete {
+        position: relative;
+        padding: 6px 15px;
+        color: #F5222D;
+        background-color: transparent;
+        border: 1px solid #e43838;
+        border-radius: 5px;
+        margin-right: 10px;
+        cursor: pointer;
+
+        &:hover {
+          color: #ffffff;
+          background-color: #F5222D;
+        }
+      }
+
+      .btnEdit {
+        padding: 6px 15px;
+        color: #52C41A;
+        background-color: transparent;
+        border: 1px solid #52C41A;
+        border-radius: 5px;
+        cursor: pointer;
+
+        &:hover {
+          color: #ffffff;
+          background-color: #52C41A;
+        }
+      }
+    }
+
+    .bottomWrapper {
+      margin-bottom: 20px;
+
+      .articleTextContainer {
+        max-width: 682px;
+        width: 600px;
+
+        p {
+          overflow: hidden;
+          height: auto;
+          white-space: wrap;
+          word-break: break-all;
+          text-overflow: ellipsis;
+        }
+      }
+    }
+  }
+}
