@@ -7,11 +7,12 @@ import { Provider } from 'react-redux';
 import { store } from './store/store.js';
 import App from './components/App/index.jsx';
 import { BrowserRouter } from 'react-router';
+import { HashRouter as Router } from 'react-router-dom';
 
 createRoot(document.getElementById('root')).render(
   <Provider store={store}>
-    <BrowserRouter>
+    <HashRouter>
       <App />
-    </BrowserRouter>
+    </HashRouter>
   </Provider>,
 );
