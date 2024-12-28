@@ -3,10 +3,13 @@ import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router';
 import { apiPostLogin } from '../../api/apiPostLogin.js';
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { Alert, ConfigProvider } from 'antd';
+import AlertSignIn from '../../components/ui/AlertSignIn/index.jsx';
 
 function PageSignIn() {
-  const { profile, status, error, loading } = useSelector(
+  const [showAlert, setShowAlert] = useState(false);
+  const { profile, status, error, loading, errorSignIn } = useSelector(
     (store) => store.loginProfile,
   );
   const navigate = useNavigate();
@@ -25,12 +28,18 @@ function PageSignIn() {
 
   useEffect(() => {
     if (profile?.user?.email) {
-      navigate('/');
-      localStorage.setItem('token', profile?.user?.token);
+      setShowAlert(true);
+      const time = setTimeout(() => {
+        navigate('/');
+        localStorage.setItem('token', profile.user.token);
+        setShowAlert(false);
+      }, 1500);
+      return () => clearTimeout(time);
     }
   }, [profile, navigate]);
   return (
     <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
+      {showAlert && <AlertSignIn />}
       <h1>Sign In</h1>
 
       <label className={classes.formLabel} htmlFor="email">
@@ -51,7 +60,10 @@ function PageSignIn() {
           },
         })}
       />
-      {emailError && <p className={classes.errorInput}>{emailError}</p>}
+      {(emailError && <p className={classes.errorInput}>{emailError}</p>) ||
+        (errorSignIn && (
+          <p className={classes.errorInput}>Incorrect email or password</p>
+        ))}
       <label className={classes.formLabel} htmlFor="password">
         Password
       </label>
@@ -70,9 +82,12 @@ function PageSignIn() {
           },
         })}
       />
-      {errors.password && (
+      {(errors.password && (
         <p className={classes.errorInput}>{errors.password.message}</p>
-      )}
+      )) ||
+        (errorSignIn && (
+          <p className={classes.errorInput}>Incorrect email or password</p>
+        ))}
 
       <button className={classes.btnLogin} type="submit">
         Login

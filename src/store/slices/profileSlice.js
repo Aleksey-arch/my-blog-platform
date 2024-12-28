@@ -10,6 +10,7 @@ export const profileSlice = createSlice({
     error: null,
     loading: false,
     isAuthenticated: false,
+    errorSignIn: null,
   },
   reducers: {
     profileLogOut: (state, action) => {
@@ -24,29 +25,26 @@ export const profileSlice = createSlice({
       .addCase(apiPostLogin.pending, (state, action) => {
         state.status = 'loading';
         state.loading = true;
-        state.error = null;
+        state.errorSignIn = null;
       })
       .addCase(apiPostLogin.fulfilled, (state, action) => {
         state.status = 'resolved';
         state.loading = false;
         state.profile = action.payload;
-        state.error = null;
+        state.errorSignIn = null;
       })
       .addCase(apiPostLogin.rejected, (state, action) => {
         state.status = 'rejected';
         state.loading = false;
-        state.error = true;
+        state.errorSignIn = true;
       })
       .addCase(apiGetProfileToken.fulfilled, (state, action) => {
-        // Обработка успеха
-        state.profile = action.payload; // Сохраняем данные пользователя из ответа
-        state.isAuthenticated = true; //  Флаг, что пользователь авторизован
+        state.profile = action.payload;
+        state.isAuthenticated = true;
       })
       .addCase(apiGetProfileToken.rejected, (state, action) => {
-        // Обработка ошибки
-        state.error = action.payload; // Сохраняем сообщение об ошибке
-        state.isAuthenticated = false; // Флаг, что пользователь не авторизован
-        // Другая логика обработки ошибок если нужно
+        state.error = action.payload;
+        state.isAuthenticated = false;
       });
   },
 });
