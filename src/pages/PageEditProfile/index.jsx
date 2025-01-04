@@ -1,12 +1,23 @@
 import classes from './index.module.scss';
 import { useForm } from 'react-hook-form';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { apiPutEditProfile } from '../../api/apiPutEditProfile.js';
+import { Spin } from 'antd';
+import AlertSignIn from '../../components/ui/AlertSignIn/index.jsx';
 
 function PageEditProfile() {
-  const { profile, status, error, loading, user, isAuthenticated } =
-    useSelector((store) => store.loginProfile);
+  const [showAlert, setShowAlert] = useState(false);
+  const {
+    profile,
+    status,
+    error,
+    loading,
+    user,
+    isAuthenticated,
+    loadingEditProfile,
+    statusEditProfile,
+  } = useSelector((store) => store.loginProfile);
   const dispatch = useDispatch();
   const {
     register,
@@ -33,9 +44,21 @@ function PageEditProfile() {
       image: profile?.user?.image,
     });
   }, [reset, profile]);
+  
+  useEffect(() => {
+    if (statusEditProfile) {
+      setShowAlert(true);
+      const time = setTimeout(() => {
+        setShowAlert(false);
+      }, 5000);
+      return () => clearTimeout(time);
+    }
+  }, [statusEditProfile]);
+  const discriptionAlert = { desc: 'Successfully!' };
 
   return (
     <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
+      {showAlert && <AlertSignIn discriptionAlert={discriptionAlert} />}
       <h1>Edit Profile</h1>
       <label className={classes.formLabel} htmlFor="username">
         Username
@@ -117,8 +140,12 @@ function PageEditProfile() {
         <p className={classes.errorInput}>{errors.image.message}</p>
       )}
 
-      <button className={classes.btn} type="submit">
-        Save
+      <button
+        className={classes.btn}
+        type="submit"
+        disabled={loadingEditProfile}
+      >
+        {!loadingEditProfile ? 'Save' : <Spin />}
       </button>
     </form>
   );

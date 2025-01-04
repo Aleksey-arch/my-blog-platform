@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { apiPostLogin } from '../../api/apiPostLogin.js';
 import { apiGetProfileToken } from '../../api/apiGetProfileToken.js';
+import { apiPutEditProfile } from '../../api/apiPutEditProfile.js';
 
 export const profileSlice = createSlice({
   name: 'profileSlice',
@@ -11,6 +12,8 @@ export const profileSlice = createSlice({
     loading: false,
     isAuthenticated: false,
     errorSignIn: null,
+    loadingEditProfile: false,
+    statusEditProfile: false,
   },
   reducers: {
     profileLogOut: (state, action) => {
@@ -38,6 +41,7 @@ export const profileSlice = createSlice({
         state.loading = false;
         state.errorSignIn = true;
       })
+
       .addCase(apiGetProfileToken.fulfilled, (state, action) => {
         state.profile = action.payload;
         state.isAuthenticated = true;
@@ -45,6 +49,22 @@ export const profileSlice = createSlice({
       .addCase(apiGetProfileToken.rejected, (state, action) => {
         state.error = action.payload;
         state.isAuthenticated = false;
+      })
+
+      .addCase(apiPutEditProfile.pending, (state, action) => {
+        state.statusEditProfile = false;
+        state.loadingEditProfile = true;
+        state.error = false;
+      })
+      .addCase(apiPutEditProfile.fulfilled, (state, action) => {
+        state.statusEditProfile = true;
+        state.loadingEditProfile = false;
+        state.error = false;
+      })
+      .addCase(apiPutEditProfile.rejected, (state, action) => {
+        state.statusEditProfile = false;
+        state.loadingEditProfile = false;
+        state.error = true;
       });
   },
 });

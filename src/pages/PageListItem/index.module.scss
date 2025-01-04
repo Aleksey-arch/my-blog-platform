@@ -105,7 +105,6 @@
 
           .tag {
             width: auto;
-
             border: 1px solid #ddd;
             border-radius: 3px;
             padding: 1px 3px;
@@ -187,6 +186,13 @@
           text-overflow: ellipsis;
         }
       }
+    }
+
+    .markdownContainer {
+      
+      text-wrap: wrap;
+      word-break: break-word;
+
     }
   }
 }

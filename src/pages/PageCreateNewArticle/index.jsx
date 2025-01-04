@@ -1,14 +1,20 @@
 import classes from './index.module.scss';
 import { useForm } from 'react-hook-form';
-import { Link, useNavigate } from 'react-router';
+import { useNavigate } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
-import { apiPostNewProfile } from '../../api/apiPostNewProfile.js';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { apiPostNewArticle } from '../../api/apiPostNewArticle.js';
+import { Spin } from 'antd';
+import AlertSignIn from '../../components/ui/AlertSignIn/index.jsx';
 
 function PageCreateNewArticle() {
   const MAX_TAGS = 5;
-  const [tags, setTags] = useState(['', '']); // Инициализируем с двумя пустыми тегами
+
+  const [tags, setTags] = useState(['', '']);
+  const [showAlert, setShowAlert] = useState(false);
+  const { statusCreateNewArticle, loadingCreateNewArticle } = useSelector(
+    (store) => store.articlesData,
+  );
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -16,6 +22,7 @@ function PageCreateNewArticle() {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm({
     defaultValues: {},
     mode: 'onChange',
@@ -23,20 +30,20 @@ function PageCreateNewArticle() {
 
   const onSubmit = (data) => {
     const tagsArray = Object.keys(data)
-      .filter((key) => key.startsWith('tag_')) // Фильтруем поля тегов
-      .map((key) => data[key]); // Извлекаем значения
+      .filter((key) => key.startsWith('tag'))
+      .map((key) => data[key]);
 
     const postData = {
       ...data,
-      tags: tagsArray, // Добавляем массив tags к отправляемым данным
+      tags: tagsArray,
     };
-    console.log(postData);
+    // console.log(postData);
     dispatch(apiPostNewArticle(postData));
-    navigate('/');
+    // navigate('/');
   };
 
   const addTag = () => {
-    setTags([...tags, '']); // Добавляем пустой тег
+    setTags([...tags, '']);
   };
 
   const deleteTag = (index) => {
@@ -51,8 +58,22 @@ function PageCreateNewArticle() {
     setTags(newTags);
   };
 
+  const discriptionAlert = { desc: 'Created post!' };
+
+  useEffect(() => {
+    if (statusCreateNewArticle) {
+      setShowAlert(true);
+      reset();
+      const time = setTimeout(() => {
+        setShowAlert(false);
+      }, 10000);
+      return () => clearTimeout(time);
+    }
+  }, [statusCreateNewArticle]);
   return (
     <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
+      {showAlert && <AlertSignIn discriptionAlert={discriptionAlert} />}
+
       <h1>Create new article</h1>
       <label className={classes.formLabel} htmlFor="title">
         Title
@@ -63,8 +84,18 @@ function PageCreateNewArticle() {
         type="text"
         placeholder="Title"
         style={errors.title && { border: '1px solid #e45a5a' }}
-        {...register('title', { required: 'Title is required!' })}
+        {...register('title', {
+          required: 'Title is required!',
+          pattern: {
+            value: /^[^\s]+(\s+[^\s]+)*$/,
+            message:
+              'Возможно у тебя пробелы в начале или в конце предложения!',
+          },
+        })}
       />
+      {errors.title && (
+        <p className={classes.errorInput}>{errors.title.message}</p>
+      )}
       <label className={classes.formLabel} htmlFor="description">
         Short description
       </label>
@@ -74,8 +105,18 @@ function PageCreateNewArticle() {
         type="text"
         placeholder="Description"
         style={errors.description && { border: '1px solid #e45a5a' }}
-        {...register('description', { required: 'Description is required!' })}
+        {...register('description', {
+          required: 'Description is required!',
+          pattern: {
+            value: /^[^\s]+(\s+[^\s]+)*$/,
+            message:
+              'Возможно у тебя пробелы в начале или в конце предложения!',
+          },
+        })}
       />
+      {errors.description && (
+        <p className={classes.errorInput}>{errors.description.message}</p>
+      )}
       <label className={classes.formLabel} htmlFor="body">
         Text
       </label>
@@ -85,8 +126,18 @@ function PageCreateNewArticle() {
         placeholder="Text"
         autoComplete="username email"
         style={errors.body && { border: '1px solid #e45a5a' }}
-        {...register('body', { required: 'Text is required!' })}
+        {...register('body', {
+          required: 'Text is required!',
+          pattern: {
+            value: /^[^\s]+(\s+[^\s]+)*$/,
+            message:
+              'Возможно у тебя пробелы в начале или в конце предложения!',
+          },
+        })}
       />
+      {errors.body && (
+        <p className={classes.errorInput}>{errors.body.message}</p>
+      )}
       <div className={classes.container}>
         <label className={classes.formLabel} htmlFor="body">
           Tags
@@ -98,9 +149,17 @@ function PageCreateNewArticle() {
                 className={[classes.description, classes.formInput].join(' ')}
                 type="text"
                 placeholder="Tag"
+                id={`tag${index}`}
                 onChange={(event) => handleTagChange(index, event)}
-                style={errors.tag && { border: '1px solid #e45a5a' }}
-                {...register(`tag_${index}`)}
+                style={errors[`tag${index}`] && { border: '1px solid #e45a5a' }}
+                {...register(`tag${index}`, {
+                  required: 'Text is required!',
+                  pattern: {
+                    value: /^[^\s]+(\s+[^\s]+)*$/,
+                    message:
+                      'Возможно у тебя пробелы в начале или в конце предложения!',
+                  },
+                })}
               />
               <button
                 className={classes.btnDelete}
@@ -118,11 +177,49 @@ function PageCreateNewArticle() {
                   Add tag
                 </button>
               )}
+              {tags.length === 0 ? (
+                <button
+                  className={classes.btnAddTag}
+                  type="button"
+                  onClick={addTag}
+                >
+                  Add tag
+                </button>
+              ) : null}
             </div>
           ))}
+
+          {tags.length === 0 ? (
+            <button
+              className={classes.btnAddTag}
+              type="button"
+              onClick={addTag}
+            >
+              Add tag
+            </button>
+          ) : null}
+          {(errors.tag0 && (
+            <p className={classes.errorInput}>{errors.tag0.message}</p>
+          )) ||
+            (errors.tag1 && (
+              <p className={classes.errorInput}>{errors.tag1.message}</p>
+            )) ||
+            (errors.tag2 && (
+              <p className={classes.errorInput}>{errors.tag2.message}</p>
+            )) ||
+            (errors.tag3 && (
+              <p className={classes.errorInput}>{errors.tag3.message}</p>
+            )) ||
+            (errors.tag4 && (
+              <p className={classes.errorInput}>{errors.tag4.message}</p>
+            ))}
         </div>
-        <button className={classes.btn} type="submit">
-          Send
+        <button
+          className={classes.btn}
+          type="submit"
+          disabled={loadingCreateNewArticle}
+        >
+          {!loadingCreateNewArticle ? 'Send' : <Spin />}
         </button>
       </div>
     </form>

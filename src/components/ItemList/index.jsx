@@ -19,7 +19,12 @@ function ItemList({ article }) {
   const { profile, status, error, loading, user, isAuthenticated } =
     useSelector((store) => store.loginProfile);
 
+  // const { currentArticle, conditionTooltipsDelete } = useSelector(
+  //   (store) => store.articlesData,
+  // );
+
   const getArticle = (e) => {
+    sessionStorage.setItem('slug', e);
     dispatch(apiGetArticle(e));
   };
   const addLike = () => {

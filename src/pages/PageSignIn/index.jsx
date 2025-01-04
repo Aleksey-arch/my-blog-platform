@@ -25,6 +25,7 @@ function PageSignIn() {
   const onSubmit = (data) => {
     dispatch(apiPostLogin(data));
   };
+  const discriptionAlert = { desc: 'Successfully!' };
 
   useEffect(() => {
     if (profile?.user?.email) {
@@ -39,7 +40,7 @@ function PageSignIn() {
   }, [profile, navigate]);
   return (
     <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
-      {showAlert && <AlertSignIn />}
+      {showAlert && <AlertSignIn discriptionAlert={discriptionAlert} />}
       <h1>Sign In</h1>
 
       <label className={classes.formLabel} htmlFor="email">

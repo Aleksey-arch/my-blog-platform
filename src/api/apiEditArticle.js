@@ -2,7 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 export const apiEditArticle = createAsyncThunk(
-  'apiPostNewArticle',
+  'apiEditArticle',
   async (data, { RejectWithValue }) => {
     try {
       const token = localStorage.getItem('token');

@@ -7,8 +7,12 @@ import TooltipsDelete from '../../components/ui/TooltipsDelete/index.jsx';
 import { actions } from '../../store/slices/articlesDataSlice.js';
 import { apiAddFavorite } from '../../api/apiAddFavorite.js';
 import { apiDeleteArticle } from '../../api/apiDeleteFavorite.js';
+import { useEffect, useState } from 'react';
+import { apiGetArticle } from '../../api/apiGetArticle.js';
 
 function PageArticle() {
+  const [likeCount, setLikeCount] = useState(0);
+  const [block, setBlock] = useState(false);
   const { currentArticle, conditionTooltipsDelete } = useSelector(
     (store) => store.articlesData,
   );
@@ -23,11 +27,25 @@ function PageArticle() {
     dispatch(actions.changeConditionTooltipsDelete());
   };
   const addLike = () => {
+    console.log('addLike');
+    setLikeCount((item) => item + 1);
+    setBlock(true);
     dispatch(apiAddFavorite(currentArticle?.slug));
   };
   const removeLike = () => {
+    console.log('delete');
+    setLikeCount((item) => item - 1);
+    setBlock(false);
     dispatch(apiDeleteArticle(currentArticle?.slug));
   };
+
+  useEffect(() => {
+    setLikeCount(currentArticle?.favoritesCount || 0);
+    setBlock(currentArticle?.favorited);
+    if (!currentArticle) {
+      dispatch(apiGetArticle(sessionStorage.getItem('slug')));
+    }
+  }, []);
 
   return (
     <div className={classes.container}>
@@ -38,7 +56,9 @@ function PageArticle() {
               <div className={classes.titleLikeContainer}>
                 <h1 className={classes.title}>{currentArticle.title}</h1>
                 <div className={classes.like}>
-                  {currentArticle.favorited ? (
+                  {!isAuthenticated ? (
+                    <div className={classes.heart}></div>
+                  ) : block ? (
                     <div
                       className={classes.heartFavorited}
                       onClick={() => removeLike()}
@@ -49,7 +69,7 @@ function PageArticle() {
                       onClick={() => addLike()}
                     ></div>
                   )}
-                  <span>{currentArticle.favoritesCount}</span>
+                  <span>{likeCount}</span>
                 </div>
               </div>
               <div className={classes.tagsContainer}>
@@ -92,7 +112,9 @@ function PageArticle() {
               <p>{currentArticle.description}</p>
             </div>
           </div>
-          <Markdown>{currentArticle.body}</Markdown>
+          <div className={classes.markdownContainer}>
+            <Markdown>{currentArticle.body}</Markdown>
+          </div>
         </div>
       )}
     </div>

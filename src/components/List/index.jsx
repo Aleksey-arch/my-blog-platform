@@ -13,7 +13,7 @@ function List() {
   const { paginationNumber } = data;
 
   useEffect(() => {
-    dispatch(apiGetArticles(paginationNumber));
+    dispatch(apiGetArticles(sessionStorage.getItem('paginationNumber')));
   }, [dispatch, paginationNumber]);
 
   console.log(paginationNumber);
@@ -45,8 +45,9 @@ function List() {
             showSizeChanger={false}
             onChange={(e) => {
               dispatch(actions.setPaginationNumber(e));
+              sessionStorage.setItem('paginationNumber', e);
             }}
-            current={paginationNumber}
+            current={sessionStorage.getItem('paginationNumber')}
           />
         </ConfigProvider>
       </div>
