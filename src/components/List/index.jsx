@@ -13,7 +13,11 @@ function List() {
   const { paginationNumber } = data;
 
   useEffect(() => {
-    dispatch(apiGetArticles(sessionStorage.getItem('paginationNumber')));
+    if (!sessionStorage.getItem('paginationNumber')) {
+      dispatch(apiGetArticles(paginationNumber));
+    } else {
+      dispatch(apiGetArticles(sessionStorage.getItem('paginationNumber')));
+    }
   }, [dispatch, paginationNumber]);
 
   console.log(paginationNumber);
