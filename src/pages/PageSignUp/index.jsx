@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { apiPostNewProfile } from '../../api/apiPostNewProfile.js';
 
 function PageSignUp() {
-  const { currentArticle } = useSelector((store) => store.articlesData);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 

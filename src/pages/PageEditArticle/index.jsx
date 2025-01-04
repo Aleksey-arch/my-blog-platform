@@ -3,7 +3,6 @@ import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { apiEditArticle } from '../../api/apiEditArticle.js';
-import { useNavigate } from 'react-router';
 import { Spin } from 'antd';
 import AlertSignIn from '../../components/ui/AlertSignIn/index.jsx';
 import { apiGetArticle } from '../../api/apiGetArticle.js';
@@ -14,11 +13,9 @@ function PageEditArticle() {
   );
   const MAX_TAGS = 5;
   const [tags, setTags] = useState(['', '']);
-  const { profile, status, error, loading, user, isAuthenticated } =
-    useSelector((store) => store.loginProfile);
+  const { loading } = useSelector((store) => store.loginProfile);
 
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const discriptionAlert = { desc: 'Saved article!' };
 
@@ -50,9 +47,7 @@ function PageEditArticle() {
       tags: tagsArray,
       slug: currentArticle?.slug,
     };
-    // console.log(postData);
     dispatch(apiEditArticle(postData));
-    // navigate('/');
   };
 
   const addTag = () => {

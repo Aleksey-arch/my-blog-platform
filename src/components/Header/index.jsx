@@ -7,8 +7,9 @@ import { useEffect } from 'react';
 import { apiGetProfileToken } from '../../api/apiGetProfileToken.js';
 
 function Header() {
-  const { profile, status, error, loading, user, isAuthenticated } =
-    useSelector((store) => store.loginProfile);
+  const { profile, user, isAuthenticated } = useSelector(
+    (store) => store.loginProfile,
+  );
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const onClickBtn = () => {
@@ -16,7 +17,6 @@ function Header() {
     localStorage.removeItem('token');
     navigate('/sign-in');
   };
-  console.log('isAuthenticated', isAuthenticated, 'user', user);
 
   useEffect(() => {
     dispatch(apiGetProfileToken());

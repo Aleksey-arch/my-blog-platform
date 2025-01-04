@@ -4,9 +4,7 @@ import { useSelector } from 'react-redux';
 import avatarPictures from '../../../../public/assets/author.svg';
 
 function HeaderProfileIcon() {
-  const { profile, status, error, loading } = useSelector(
-    (store) => store.loginProfile,
-  );
+  const { profile } = useSelector((store) => store.loginProfile);
 
   return (
     <>

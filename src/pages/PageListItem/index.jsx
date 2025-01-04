@@ -17,8 +17,9 @@ function PageArticle() {
     (store) => store.articlesData,
   );
   const dispatch = useDispatch();
-  const { profile, status, error, loading, user, isAuthenticated } =
-    useSelector((store) => store.loginProfile);
+  const { profile, isAuthenticated } = useSelector(
+    (store) => store.loginProfile,
+  );
   const formatDate = currentArticle?.createdAt
     ? format(currentArticle.createdAt, 'MMM d, yyyy')
     : null;
@@ -40,12 +41,12 @@ function PageArticle() {
   };
 
   useEffect(() => {
-    setLikeCount(currentArticle?.favoritesCount || 0);
-    setBlock(currentArticle?.favorited);
     if (!currentArticle) {
       dispatch(apiGetArticle(sessionStorage.getItem('slug')));
     }
-  }, []);
+    setLikeCount(currentArticle?.favoritesCount || 0);
+    setBlock(currentArticle?.favorited);
+  }, [currentArticle]);
 
   return (
     <div className={classes.container}>

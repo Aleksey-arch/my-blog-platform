@@ -37,9 +37,7 @@ function PageCreateNewArticle() {
       ...data,
       tags: tagsArray,
     };
-    // console.log(postData);
     dispatch(apiPostNewArticle(postData));
-    // navigate('/');
   };
 
   const addTag = () => {

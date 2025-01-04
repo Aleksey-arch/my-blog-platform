@@ -16,12 +16,7 @@ function ItemList({ article }) {
   const dispatch = useDispatch();
   const formatDate = format(article?.updatedAt, 'MMM d, yyyy');
   const data = useSelector((store) => store.articlesData);
-  const { profile, status, error, loading, user, isAuthenticated } =
-    useSelector((store) => store.loginProfile);
-
-  // const { currentArticle, conditionTooltipsDelete } = useSelector(
-  //   (store) => store.articlesData,
-  // );
+  const { isAuthenticated } = useSelector((store) => store.loginProfile);
 
   const getArticle = (e) => {
     sessionStorage.setItem('slug', e);

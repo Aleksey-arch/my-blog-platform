@@ -2,7 +2,7 @@ import classes from './index.module.scss';
 import ItemList from '../ItemList/index.jsx';
 import { ConfigProvider, Pagination, Spin } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { apiGetArticles } from '../../api/apiGetArticles.js';
 import { actions } from '../../store/slices/articlesDataSlice.js';
 
@@ -19,8 +19,6 @@ function List() {
       dispatch(apiGetArticles(sessionStorage.getItem('paginationNumber')));
     }
   }, [dispatch, paginationNumber]);
-
-  console.log(paginationNumber);
 
   return (
     <>

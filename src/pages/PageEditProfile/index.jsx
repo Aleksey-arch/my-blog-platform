@@ -8,16 +8,9 @@ import AlertSignIn from '../../components/ui/AlertSignIn/index.jsx';
 
 function PageEditProfile() {
   const [showAlert, setShowAlert] = useState(false);
-  const {
-    profile,
-    status,
-    error,
-    loading,
-    user,
-    isAuthenticated,
-    loadingEditProfile,
-    statusEditProfile,
-  } = useSelector((store) => store.loginProfile);
+  const { profile, loadingEditProfile, statusEditProfile } = useSelector(
+    (store) => store.loginProfile,
+  );
   const dispatch = useDispatch();
   const {
     register,
@@ -44,7 +37,7 @@ function PageEditProfile() {
       image: profile?.user?.image,
     });
   }, [reset, profile]);
-  
+
   useEffect(() => {
     if (statusEditProfile) {
       setShowAlert(true);
@@ -131,7 +124,7 @@ function PageEditProfile() {
         {...register('image', {
           required: 'AvatarUrl is required!',
           pattern: {
-            value: /(https?:\/\/.*\.(?:png|jpg|jpeg|gif|svg))/i,
+            value: /(https?:\/\/.*\.(?:png|jpg|jpeg|gif|svg))/g,
             message: 'Invalid avatar url',
           },
         })}

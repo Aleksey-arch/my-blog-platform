@@ -4,14 +4,11 @@ import { Link, useNavigate } from 'react-router';
 import { apiPostLogin } from '../../api/apiPostLogin.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
-import { Alert, ConfigProvider } from 'antd';
 import AlertSignIn from '../../components/ui/AlertSignIn/index.jsx';
 
 function PageSignIn() {
   const [showAlert, setShowAlert] = useState(false);
-  const { profile, status, error, loading, errorSignIn } = useSelector(
-    (store) => store.loginProfile,
-  );
+  const { profile, errorSignIn } = useSelector((store) => store.loginProfile);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const {

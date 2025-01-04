@@ -20,14 +20,12 @@ export const apiPutEditProfile = createAsyncThunk(
         { headers: { Authorization: `Token ${token}` } },
       );
 
-      console.log(response);
-
       if (response.status === 200) {
         return response.data;
       }
     } catch (r) {
       if (r.status === 422) {
-        console.log('такой username/email уже занят!');
+        // console.log('такой username/email уже занят!');
       }
       return RejectWithValue(r.message);
     }
